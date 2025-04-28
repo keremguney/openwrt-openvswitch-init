@@ -1,4 +1,4 @@
-!/bin/sh /etc/rc.common
+#!/bin/sh /etc/rc.common
 # Copyright (C) 2013 Julius Schulz-Zander <julius@net.t-labs.tu-berlin.de>
 # Copyright (C) 2014-2017 OpenWrt.org
 # Copyright (C) 2018 Yousong Zhou <yszhou4tech@gmail.com>
