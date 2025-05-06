@@ -1,3 +1,4 @@
+
 #!/bin/sh
 
 set -eu
@@ -25,7 +26,7 @@ for port in $lan_ports; do
 done
 
 # Use provided bridge name or default
-br="${1:-brlan1}"
+br="${1:-br0}"
 echo "Adding ports to bridge '$br'..."
 
 for port in $lan_ports; do
