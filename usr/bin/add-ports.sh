@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 set -eu
@@ -21,7 +20,10 @@ if [ -z "$lan_ports" ]; then
   exit 1
 fi
 
-for port in $lan_ports; do
+# Sort lan ports (e.g., lan1 lan2 lan10 properly)
+sorted_ports=$(echo "$lan_ports" | tr ' ' '\n' | sort -V)
+
+for port in $sorted_ports; do
   echo "$port"
 done
 
@@ -29,14 +31,14 @@ done
 br="${1:-br0}"
 echo "Adding ports to bridge '$br'..."
 
-for port in $lan_ports; do
-  # Check if port already exists on the bridge
+port_number=1
+for port in $sorted_ports; do
   if ovs-vsctl list-ports "$br" | grep -qx "$port"; then
     echo "Skipping $port (already exists on $br)"
     continue
   fi
 
-  echo "Adding $port to $br..."
-  ovs-vsctl add-port "$br" "$port"
+  echo "Adding $port to $br with ofport_request=$port_number..."
+  ovs-vsctl add-port "$br" "$port" -- set Interface "$port" ofport_request="$port_number"
+  port_number=$((port_number + 1))
 done
-
