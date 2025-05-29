@@ -20,14 +20,12 @@ if [ -z "$lan_ports" ]; then
   exit 1
 fi
 
-# Sort lan ports (e.g., lan1 lan2 lan10 properly)
 sorted_ports=$(echo "$lan_ports" | tr ' ' '\n' | sort -V)
 
 for port in $sorted_ports; do
   echo "$port"
 done
 
-# Use provided bridge name or default
 br="${1:-br0}"
 echo "Adding ports to bridge '$br'..."
 
